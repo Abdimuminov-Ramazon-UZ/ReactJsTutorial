@@ -3,8 +3,14 @@ const Extra = ({ searchCounter }) => {
   let [searcher, setSearch] = useState([]);
 
   useEffect(() => {
-    const newItem = searchCounter();
-    setSearch(newItem);
+    // const newItem = searchCounter();
+    // setSearch(newItem);
+    if (typeof searchCounter === "function") {
+      const newItem = searchCounter();
+      setSearch(newItem);
+    } else {
+      setSearch(searchCounter);
+    }
   }, [searchCounter]);
   return (
     <ul>
