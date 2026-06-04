@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Appfilter from "../app-filter/index";
 import AppInfo from "../app-info/app-info";
@@ -45,10 +45,10 @@ const arr = [
   },
 ];
 export const FunctionApp = () => {
-  const [data, setData] = useState(arr);
+  const [data, setData] = useState([]);
   const [term, setTerm] = useState("");
   const [filter, setFilter] = useState("all");
-
+  const [loading, setloading] = useState(false);
   const onDelete = (id) => {
     setData((prev) => ({ prev: prev.filter((item) => item.id == id) }));
   };
@@ -86,6 +86,21 @@ export const FunctionApp = () => {
   };
   const updateFilterhandler = (filter) => setFilter({ filter });
   let favoriteFilms = arr.filter((c) => c.favourite == true);
+  useEffect(() => {
+    setloading(true);
+    fetch(`https://jsonplaceholder.typicode.com/todos?_start=0&_limit=7`)
+      .then((res) => res.json())
+      .then((json) => {
+        const newArr = json.map((item) => ({
+          name: item.title,
+          id: item.id,
+          view: item.id * 100,
+          favourite: item.id % 2 === 0 ? false : true,
+          like: item.id % 2 === 0 ? true : false,
+        }));
+        setData(newArr);
+      });
+  });
 
   return (
     <div className="app font-monospace">
@@ -94,6 +109,7 @@ export const FunctionApp = () => {
         <AppInfo allFilm={data.length} favouriteFilms={favoriteFilms.length} />
         <Search term={term} upDateTermHandler={upDateTermHandler} />
         <Appfilter filter={filter} updateFilterhandler={updateFilterhandler} />
+        {loading && "Loading..."}
         <Movies
           onToggleProp={onToggleProp}
           data={filterHandler(searchHandler(data, term), filter)}

@@ -1,4 +1,6 @@
-import { useRef, useState } from "react";
+import { useContext } from "react";
+import { useInputValidate } from "../Hook/hooks";
+import { Context } from "./context";
 import "./index.scss";
 // const ForExperiment = () => {
 //   let [counter, setCounter] = useState(4);
@@ -34,53 +36,95 @@ import "./index.scss";
 //     </div>
 //   );
 // };
+// const ForExperiment = () => {
+//   const [cardNumber, setCardNumber] = useState("");
+//   const [cvcNumber, setCvcNumber] = useState("");
+//   const cvcRef = useRef(null);
+//   const dataRef = useRef(null);
+//   const handleinput = (e) => {
+//     const val = e.target.value;
+//     setCardNumber(val);
+//     if (val.length === 16) {
+//       cvcRef.current.focus();
+//     }
+//   };
+//   const handleSecure = (e) => {
+//     const val = e.target.value;
+//     setCvcNumber(val);
+//     if (val.length === 3) {
+//       dataRef.current.focus();
+//     }
+//   };
+//   return (
+//     <div className="m-50 mx-auto mb-5">
+//       <div className="boredr p-3 mt-5">
+//         <input
+//           type="text"
+//           className="form-control"
+//           placeholder="Card Number"
+//           value={cardNumber}
+//           onChange={handleinput}
+//         />
+
+//         <input
+//           ref={cvcRef}
+//           type="text"
+//           className="form-control"
+//           placeholder="secure number"
+//           value={cvcNumber}
+//           onChange={handleSecure}
+//         />
+//         <input
+//           ref={dataRef}
+//           type="text"
+//           className="form-control"
+//           placeholder="year/month"
+//         />
+//       </div>
+//     </div>
+//   );
+// };
+const MyButton = ({ children }) => (
+  <button className="mt-3 btn btn-success">{children}</button>
+);
+//we use props.children for get data from component
 const ForExperiment = () => {
-  const [cardNumber, setCardNumber] = useState("");
-  const [cvcNumber, setCvcNumber] = useState("");
-  const cvcRef = useRef(null);
-  const dataRef = useRef(null);
-  const handleinput = (e) => {
-    const val = e.target.value;
-    setCardNumber(val);
-    if (val.length === 16) {
-      cvcRef.current.focus();
-    }
-  };
-  const handleSecure = (e) => {
-    const val = e.target.value;
-    setCvcNumber(val);
-    if (val.length === 3) {
-      dataRef.current.focus();
-    }
+  const firstName = useInputValidate("");
+  const lastName = useInputValidate("");
+  const { state, dispatch } = useContext(Context);
+  const onDelete = () => {
+    dispatch({ type: "ON_DELETE", payload: 3 });
   };
   return (
     <div className="m-50 mx-auto mb-5">
-      <div className="boredr p-3 mt-5">
+      <div className="border p-3 mt-5">
+        <h1>Register</h1>
+      </div>
+      <div className="border p-3 mt-5">
         <input
           type="text"
-          className="form-control"
+          className={`form-control ${firstName.validateColor}`}
+          value={firstName.value}
           placeholder="Card Number"
-          value={cardNumber}
-          onChange={handleinput}
+          onChange={firstName.onChange}
         />
 
         <input
-          ref={cvcRef}
           type="text"
-          className="form-control"
           placeholder="secure number"
-          value={cvcNumber}
-          onChange={handleSecure}
-        />
-        <input
-          ref={dataRef}
-          type="text"
-          className="form-control"
-          placeholder="year/month"
+          className={`form-control ${lastName.validateColor}`}
+          value={lastName.value}
+          onChange={lastName.onChange}
         />
       </div>
+      <MyButton>
+        <p>Hello</p>
+      </MyButton>
+      <MyButton>
+        <p>search</p>
+      </MyButton>
     </div>
   );
 };
 export default ForExperiment;
-// 6 hour 5 minutes
+// 7 hour 15 minutes

@@ -3,13 +3,13 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 
 // import { App } from "./Components/App/App.jsx";
-// import ForExperiment from "./Components/Experiment/index.jsx";
-import { FunctionApp } from "./Functional/App/App";
+import ForExperiment from "./Components/Experiment/index.jsx";
+// import { FunctionApp } from "./Functional/App/App";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* <App /> */}
-    <FunctionApp />
-    {/* <ForExperiment /> */}
+    {/* <FunctionApp /> */}
+    <ForExperiment />
   </StrictMode>,
 );
 //5 hour 30 minutes
